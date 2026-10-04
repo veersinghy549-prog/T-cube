@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi"><head><meta charset="utf-8"><title>T Cube Social</title><style>body,html{background:#000}::placeholder{color:#777}</style>
+<html lang="en"><head><meta charset="utf-8"><title>T Cube Social</title><style>body,html{background:#000}::placeholder{color:#777}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -16,15 +16,15 @@ button{border:0;background:var(--bl);color:#000;border-radius:8px;padding:8px 14
 .bar{display:flex;border-top:1px solid var(--bd);margin-top:8px;padding-top:4px}.bar button{flex:1}.c{font-size:14px;margin:6px 0;background:var(--bg);padding:6px 10px;border-radius:14px}.pv{max-width:100%;max-height:200px;border-radius:8px;margin-top:8px}
 </style></head><body>
 <header>T Cube Social</header>
-<div id="login" style="display:none"><main><div class="card"><b id="lt">рд▓реЙрдЧрд┐рди рдХрд░реЗрдВ</b>
-<input type="text" id="nm" placeholder="рдЖрдкрдХрд╛ рдирд╛рдо" style="display:none"><input type="email" id="em" placeholder="рдИрдореЗрд▓"><input type="password" id="pw" placeholder="рдкрд╛рд╕рд╡рд░реНрдб (рдХрдо рд╕реЗ рдХрдо 6 рдЕрдХреНрд╖рд░)">
-<div class="row"><button onclick="go()" id="gb">рд▓реЙрдЧрд┐рди</button><button class="g" onclick="sw()" id="sb">рдирдпрд╛ рдЕрдХрд╛рдЙрдВрдЯ рдмрдирд╛рдПрдБ</button></div><div class="t" id="le"></div></div></main></div>
+<div id="login" style="display:none"><main><div class="card"><b id="lt">Log in</b>
+<input type="text" id="nm" placeholder="Your name" style="display:none"><input type="email" id="em" placeholder="Email"><input type="password" id="pw" placeholder="Password (at least 6 characters)">
+<div class="row"><button onclick="go()" id="gb">Log in</button><button class="g" onclick="sw()" id="sb">Create new account</button></div><div class="t" id="le"></div></div></main></div>
 <div id="app" style="display:none">
-<div class="tabs"><button id="t0" class="a" onclick="tab(0)">ЁЯПа рд╣реЛрдо</button><button id="t1" onclick="tab(1)">ЁЯСе рджреЛрд╕реНрдд</button><button id="t2" onclick="tab(2)">ЁЯСд рдкреНрд░реЛрдлрд╝рд╛рдЗрд▓</button></div>
+<div class="tabs"><button id="t0" class="a" onclick="tab(0)">&#x1F3E0; Home</button><button id="t1" onclick="tab(1)">&#x1F465; Friends</button><button id="t2" onclick="tab(2)">&#x1F464; Profile</button></div>
 <main>
-<div id="home"><div class="card"><textarea id="tx" rows="3" placeholder="рдЖрдкрдХреЗ рдорди рдореЗрдВ рдХреНрдпрд╛ рд╣реИ?"></textarea><div id="pvw"></div>
-<div class="row"><button class="g" onclick="f.click()">ЁЯУ╖ рдлреЛрдЯреЛ</button><span class="sp"></span><button id="pb" onclick="post()">рдкреЛрд╕реНрдЯ рдХрд░реЗрдВ</button></div><input type="file" id="f" accept="image/*" hidden><div class="t" id="msg"></div></div>
-<div class="row" style="margin:0 0 8px"><button class="g on" id="f0" onclick="flt(0)">рд╕рдм</button><button class="g" id="f1" onclick="flt(1)">рд╕рд┐рд░реНрдл рджреЛрд╕реНрдд</button></div><div id="feed"></div></div>
+<div id="home"><div class="card"><textarea id="tx" rows="3" placeholder="What's on your mind?"></textarea><div id="pvw"></div>
+<div class="row"><button class="g" onclick="f.click()">&#x1F4F7; Photo</button><span class="sp"></span><button id="pb" onclick="post()">Post</button></div><input type="file" id="f" accept="image/*" hidden><div class="t" id="msg"></div></div>
+<div class="row" style="margin:0 0 8px"><button class="g on" id="f0" onclick="flt(0)">All</button><button class="g" id="f1" onclick="flt(1)">Friends only</button></div><div id="feed"></div></div>
 <div id="fr" style="display:none"></div><div id="pf" style="display:none"></div>
 </main></div>
 <script type="module">
@@ -35,12 +35,12 @@ const app=initializeApp({apiKey:"AIzaSyAtd_0ExQVtKj1LfCEQyZnlwn7GfJz0xeY",authDo
 const auth=getAuth(app),db=getFirestore(app);
 const $=i=>document.getElementById(i),f=$('f'),W=window;
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const ago=t=>{const s=(Date.now()-t)/1000;return s<60?'рдЕрднреА':s<3600?Math.floor(s/60)+' рдорд┐рдирдЯ рдкрд╣рд▓реЗ':s<86400?Math.floor(s/3600)+' рдШрдВрдЯреЗ рдкрд╣рд▓реЗ':new Date(t).toLocaleDateString('hi-IN')};
+const ago=t=>{const s=(Date.now()-t)/1000;return s<60?'just now':s<3600?Math.floor(s/60)+' min ago':s<86400?Math.floor(s/3600)+' h ago':new Date(t).toLocaleDateString('en-US')};
 let U=null,profs={},reqs=[],posts=[],cur=0,fl=0,file=null,myPh=null,subs=[],signup=false;
-W.sw=()=>{signup=!signup;$('nm').style.display=signup?'block':'none';$('lt').textContent=signup?'рдирдпрд╛ рдЕрдХрд╛рдЙрдВрдЯ':'рд▓реЙрдЧрд┐рди рдХрд░реЗрдВ';$('gb').textContent=signup?'рдЕрдХрд╛рдЙрдВрдЯ рдмрдирд╛рдПрдБ':'рд▓реЙрдЧрд┐рди';$('sb').textContent=signup?'рд▓реЙрдЧрд┐рди рдкрд░ рдЬрд╛рдПрдБ':'рдирдпрд╛ рдЕрдХрд╛рдЙрдВрдЯ рдмрдирд╛рдПрдБ'};
+W.sw=()=>{signup=!signup;$('nm').style.display=signup?'block':'none';$('lt').textContent=signup?'New account':'Log in';$('gb').textContent=signup?'Create account':'Log in';$('sb').textContent=signup?'Back to log in':'Create new account'};
 W.go=async()=>{const e=$('em').value.trim(),p=$('pw').value,n=$('nm').value.trim();$('le').textContent='';
- try{if(signup){if(!n){$('le').textContent='рдирд╛рдо рд▓рд┐рдЦреЗрдВ';return}const c=await createUserWithEmailAndPassword(auth,e,p);await setDoc(doc(db,'profiles',c.user.uid),{name:n,photo:'',ts:Date.now()})}else await signInWithEmailAndPassword(auth,e,p)}
- catch(x){$('le').textContent='рддреНрд░реБрдЯрд┐: '+x.code}};
+ try{if(signup){if(!n){$('le').textContent='Enter your name';return}const c=await createUserWithEmailAndPassword(auth,e,p);await setDoc(doc(db,'profiles',c.user.uid),{name:n,photo:'',ts:Date.now()})}else await signInWithEmailAndPassword(auth,e,p)}
+ catch(x){$('le').textContent='Error: '+x.code}};
 onAuthStateChanged(auth,u=>{subs.forEach(s=>s());subs=[];U=u;$('login').style.display=u?'none':'block';$('app').style.display=u?'block':'none';if(!u)return;
  subs.push(onSnapshot(collection(db,'profiles'),s=>{profs={};s.forEach(d=>profs[d.id]=d.data());redraw()}),
  onSnapshot(collection(db,'reqs'),s=>{reqs=s.docs.map(d=>d.data());redraw()}),
@@ -48,39 +48,39 @@ onAuthStateChanged(auth,u=>{subs.forEach(s=>s());subs=[];U=u;$('login').style.di
 const me=()=>(profs[U.uid]||{}).name||'';
 const isF=u=>reqs.some(r=>r.st==='ok'&&((r.from===U.uid&&r.to===u)||(r.to===U.uid&&r.from===u)));
 const av=(u,c)=>{const p=profs[u]||{};return p.photo?'<img class="av '+(c||'')+'" src="'+p.photo+'">':'<div class="av '+(c||'')+'">'+esc((p.name||'?')[0])+'</div>'};
-const nm=(u,n)=>(profs[u]&&profs[u].name)||n||'рдЕрдирдЬрд╛рди';
+const nm=(u,n)=>(profs[u]&&profs[u].name)||n||'Unknown';
 W.tab=i=>{cur=i;[0,1,2].forEach(j=>$('t'+j).className=j==i?'a':'');redraw()};
 W.flt=i=>{fl=i;$('f0').className='g'+(i?'':' on');$('f1').className='g'+(i?' on':'');redraw()};
 function redraw(){if(!U)return;$('home').style.display=cur==0?'block':'none';$('fr').style.display=cur==1?'block':'none';$('pf').style.display=cur==2?'block':'none';
  if(cur==0)feed();if(cur==1)friends();if(cur==2&&!document.activeElement.id.startsWith('pn'))profile()}
 function feed(){const l=posts.filter(p=>!fl||p.uid===U.uid||isF(p.uid));const open=new Set([...document.querySelectorAll('.cm.open')].map(e=>e.dataset.id));
- $('feed').innerHTML=l.length?l.map(p=>{const lk=p.likes||[],cs=p.comments||[],o=open.has(p.id);return '<div class="card"><div class="h">'+av(p.uid)+'<div class="sp"><div class="n">'+esc(nm(p.uid,p.name))+'</div><div class="t">'+ago(p.ts)+'</div></div>'+(p.uid===U.uid?'<button class="g" onclick="del(\''+p.id+'\')">ЁЯЧС</button>':'')+'</div>'
- +(p.text?'<div class="p">'+esc(p.text)+'</div>':'')+(p.img?'<img class="m" src="'+p.img+'">':'')+'<div class="t" style="margin-top:6px">ЁЯСН '+lk.length+' ┬╖ ЁЯТм '+cs.length+'</div>'
- +'<div class="bar"><button class="g '+(lk.includes(U.uid)?'on':'')+'" onclick="like(\''+p.id+'\','+lk.includes(U.uid)+')">ЁЯСН рд▓рд╛рдЗрдХ</button><button class="g" onclick="tg(\''+p.id+'\')">ЁЯТм рдХрдореЗрдВрдЯ</button></div>'
+ $('feed').innerHTML=l.length?l.map(p=>{const lk=p.likes||[],cs=p.comments||[],o=open.has(p.id);return '<div class="card"><div class="h">'+av(p.uid)+'<div class="sp"><div class="n">'+esc(nm(p.uid,p.name))+'</div><div class="t">'+ago(p.ts)+'</div></div>'+(p.uid===U.uid?'<button class="g" onclick="del(\''+p.id+'\')">\ud83d\uddd1</button>':'')+'</div>'
+ +(p.text?'<div class="p">'+esc(p.text)+'</div>':'')+(p.img?'<img class="m" src="'+p.img+'">':'')+'<div class="t" style="margin-top:6px">\ud83d\udc4d '+lk.length+' \u00b7 \ud83d\udcac '+cs.length+'</div>'
+ +'<div class="bar"><button class="g '+(lk.includes(U.uid)?'on':'')+'" onclick="like(\''+p.id+'\','+lk.includes(U.uid)+')">\ud83d\udc4d Like</button><button class="g" onclick="tg(\''+p.id+'\')">\ud83d\udcac Comment</button></div>'
  +'<div class="cm'+(o?' open':'')+'" data-id="'+p.id+'" style="display:'+(o?'block':'none')+'">'+cs.map(c=>'<div class="c"><b>'+esc(nm(c.uid,c.name))+'</b> '+esc(c.text)+'</div>').join('')
- +'<div class="row"><input type="text" id="ci'+p.id+'" placeholder="рдХрдореЗрдВрдЯ рд▓рд┐рдЦреЗрдВ..." style="margin:0"><button onclick="cmt(\''+p.id+'\')">рднреЗрдЬреЗрдВ</button></div></div></div>'}).join(''):'<div class="card t">рдЕрднреА рдХреЛрдИ рдкреЛрд╕реНрдЯ рдирд╣реАрдВ рд╣реИред</div>'}
+ +'<div class="row"><input type="text" id="ci'+p.id+'" placeholder="Write a comment..." style="margin:0"><button onclick="cmt(\''+p.id+'\')">Send</button></div></div></div>'}).join(''):'<div class="card t">No posts yet.</div>'}
 W.tg=id=>{const e=document.querySelector('.cm[data-id="'+id+'"]');e.classList.toggle('open');e.style.display=e.classList.contains('open')?'block':'none'};
 W.like=(id,l)=>updateDoc(doc(db,'posts',id),{likes:l?arrayRemove(U.uid):arrayUnion(U.uid)});
 W.cmt=id=>{const i=$('ci'+id),t=i.value.trim();if(!t)return;i.value='';updateDoc(doc(db,'posts',id),{comments:arrayUnion({uid:U.uid,name:me(),text:t,ts:Date.now()})})};
-W.del=id=>{if(confirm('рдпрд╣ рдкреЛрд╕реНрдЯ рд╣рдЯрд╛рдПрдБ?'))deleteDoc(doc(db,'posts',id))};
+W.del=id=>{if(confirm('Delete this post?'))deleteDoc(doc(db,'posts',id))};
 function shrink(fl,max,lim){return new Promise((ok,no)=>{const im=new Image();im.onload=()=>{let r=Math.min(1,max/Math.max(im.width,im.height)),w=im.width*r,h=im.height*r,q=.8,d;const c=document.createElement('canvas');
  for(let i=0;i<6;i++){c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);d=c.toDataURL('image/jpeg',q);if(d.length<lim)break;q-=.1;w*=.8;h*=.8}ok(d)};im.onerror=no;im.src=URL.createObjectURL(fl)})}
 f.onchange=()=>{file=f.files[0];if(file)$('pvw').innerHTML='<img class="pv" src="'+URL.createObjectURL(file)+'">'};
-W.post=async()=>{const text=$('tx').value.trim();if(!text&&!file)return;$('pb').disabled=true;$('msg').textContent='рднреЗрдЬ рд░рд╣реЗ рд╣реИрдВ...';
+W.post=async()=>{const text=$('tx').value.trim();if(!text&&!file)return;$('pb').disabled=true;$('msg').textContent='Posting...';
  try{const d={uid:U.uid,name:me(),text,ts:Date.now(),likes:[],comments:[]};if(file)d.img=await shrink(file,900,170000);await addDoc(collection(db,'posts'),d);$('tx').value='';$('pvw').innerHTML='';file=null;f.value='';$('msg').textContent=''}
- catch(e){$('msg').textContent='рдкреЛрд╕реНрдЯ рдирд╣реАрдВ рд╣реБрдЖ: '+e.code}$('pb').disabled=false};
+ catch(e){$('msg').textContent='Post failed: '+e.code}$('pb').disabled=false};
 W.sendReq=to=>setDoc(doc(db,'reqs',U.uid+'__'+to),{from:U.uid,to,st:'pending',ts:Date.now()});
 W.acc=from=>updateDoc(doc(db,'reqs',from+'__'+U.uid),{st:'ok'});
 W.unf=async u=>{for(const id of [U.uid+'__'+u,u+'__'+U.uid])try{await deleteDoc(doc(db,'reqs',id))}catch(e){}};
 function friends(){const k=U.uid,inc=reqs.filter(r=>r.to===k&&r.st==='pending'),fr=Object.keys(profs).filter(u=>u!==k&&isF(u)),oth=Object.keys(profs).filter(u=>u!==k&&!isF(u));
  const row=(u,b)=>'<div class="card h">'+av(u)+'<div class="n sp">'+esc(nm(u))+'</div>'+b+'</div>';
- const st=u=>reqs.some(r=>r.from===k&&r.to===u&&r.st==='pending')?'<span class="t">рд░рд┐рдХреНрд╡реЗрд╕реНрдЯ рднреЗрдЬреА</span>':reqs.some(r=>r.from===u&&r.to===k&&r.st==='pending')?'<button onclick="acc(\''+u+'\')">рд╕реНрд╡реАрдХрд╛рд░реЗрдВ</button>':'<button onclick="sendReq(\''+u+'\')">тЮХ рджреЛрд╕реНрдд рдмрдирд╛рдПрдБ</button>';
- $('fr').innerHTML='<b>рдлреНрд░реЗрдВрдб рд░рд┐рдХреНрд╡реЗрд╕реНрдЯ ('+inc.length+')</b>'+inc.map(r=>row(r.from,'<button onclick="acc(\''+r.from+'\')">рд╕реНрд╡реАрдХрд╛рд░реЗрдВ</button>')).join('')+'<br><b>рдореЗрд░реЗ рджреЛрд╕реНрдд ('+fr.length+')</b>'+fr.map(u=>row(u,'<button class="g" onclick="unf(\''+u+'\')">рд╣рдЯрд╛рдПрдБ</button>')).join('')
- +'<br><b>рдФрд░ рд▓реЛрдЧ</b>'+(oth.length?oth.map(u=>row(u,st(u))).join(''):'<div class="card t">рдЕрднреА рдХреЛрдИ рдФрд░ рдирд╣реАрдВ рд╣реИред рдРрдк рдХрд╛ рд▓рд┐рдВрдХ рджреЛрд╕реНрддреЛрдВ рдХреЛ рднреЗрдЬреЗрдВ!</div>')}
+ const st=u=>reqs.some(r=>r.from===k&&r.to===u&&r.st==='pending')?'<span class="t">Request sent</span>':reqs.some(r=>r.from===u&&r.to===k&&r.st==='pending')?'<button onclick="acc(\''+u+'\')">Accept</button>':'<button onclick="sendReq(\''+u+'\')">\u2795 Add friend</button>';
+ $('fr').innerHTML='<b>Friend requests ('+inc.length+')</b>'+inc.map(r=>row(r.from,'<button onclick="acc(\''+r.from+'\')">Accept</button>')).join('')+'<br><b>My friends ('+fr.length+')</b>'+fr.map(u=>row(u,'<button class="g" onclick="unf(\''+u+'\')">Remove</button>')).join('')
+ +'<br><b>More people</b>'+(oth.length?oth.map(u=>row(u,st(u))).join(''):'<div class="card t">No one else yet. Share the app link with your friends!</div>')}
 function profile(){const p=profs[U.uid]||{},ph=myPh||p.photo;
- $('pf').innerHTML='<div class="card" style="text-align:center">'+(ph?'<img class="av big" src="'+ph+'">':'<div class="av big">'+esc((p.name||'?')[0])+'</div>')+'<div class="row" style="justify-content:center"><button class="g" onclick="pfile.click()">ЁЯУ╖ рдлреЛрдЯреЛ рдмрджрд▓реЗрдВ</button></div><input type="file" id="pfile" accept="image/*" hidden onchange="pickPh(this)">'
- +'<input type="text" id="pname" value="'+esc(p.name||'')+'" placeholder="рдЖрдкрдХрд╛ рдирд╛рдо"><div class="row" style="justify-content:center"><button onclick="saveProf()">рд╕реЗрд╡ рдХрд░реЗрдВ</button><button class="g" onclick="logout()">рд▓реЙрдЧрдЖрдЙрдЯ</button></div><div class="t" id="pmsg"></div></div>'}
+ $('pf').innerHTML='<div class="card" style="text-align:center">'+(ph?'<img class="av big" src="'+ph+'">':'<div class="av big">'+esc((p.name||'?')[0])+'</div>')+'<div class="row" style="justify-content:center"><button class="g" onclick="pfile.click()">\ud83d\udcf7 Change photo</button></div><input type="file" id="pfile" accept="image/*" hidden onchange="pickPh(this)">'
+ +'<input type="text" id="pname" value="'+esc(p.name||'')+'" placeholder="Your name"><div class="row" style="justify-content:center"><button onclick="saveProf()">Save</button><button class="g" onclick="logout()">Log out</button></div><div class="t" id="pmsg"></div></div>'}
 W.pickPh=async i=>{const fl=i.files[0];if(!fl)return;myPh=await shrink(fl,200,30000);profile()};
-W.saveProf=async()=>{const n=$('pname').value.trim();if(!n)return;try{await setDoc(doc(db,'profiles',U.uid),{name:n,photo:myPh||(profs[U.uid]||{}).photo||'',ts:Date.now()});myPh=null;$('pmsg').textContent='рд╕реЗрд╡ рд╣реЛ рдЧрдпрд╛ тЬУ'}catch(e){$('pmsg').textContent='рддреНрд░реБрдЯрд┐: '+e.code}};
+W.saveProf=async()=>{const n=$('pname').value.trim();if(!n)return;try{await setDoc(doc(db,'profiles',U.uid),{name:n,photo:myPh||(profs[U.uid]||{}).photo||'',ts:Date.now()});myPh=null;$('pmsg').textContent='Saved'}catch(e){$('pmsg').textContent='Error: '+e.code}};
 W.logout=()=>signOut(auth);
 </script></body></html>
